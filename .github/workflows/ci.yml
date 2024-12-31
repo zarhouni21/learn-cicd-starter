@@ -20,4 +20,4 @@ jobs:
         go-version: "1.23.0"
     
       -name: Echo Go version
-      run: (exit 0)
+      run: go version
