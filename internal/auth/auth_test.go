@@ -1,4 +1,4 @@
-package auth 
+package auth
 
 import (
 	"errors"
@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestGetAPIKey(t *testing.T){
+func TestGetAPIKey(t *testing.T) {
 	tests := []struct {
 		name          string
 		headers       http.Header
@@ -15,10 +15,10 @@ func TestGetAPIKey(t *testing.T){
 		expectedError error
 	}{
 		{
-			name:          "Valid API Key",
-			headers:       http.Header{"Authorization": []string{"ApiKey my-valid-api-key"}},
-			expectedKey:   "my-valid-api-key",
-			expectError:   false,
+			name:        "Valid API Key",
+			headers:     http.Header{"Authorization": []string{"ApiKey my-valid-api-key"}},
+			expectedKey: "my-valid-api-key",
+			expectError: false,
 		},
 		{
 			name:          "No Authorization Header",
@@ -72,5 +72,5 @@ func TestGetAPIKey(t *testing.T){
 				}
 			}
 		})
-	} 
+	}
 }
