@@ -36,3 +36,22 @@ jobs:
 
       - name: Check formatting
         run: test -z $(go fmt ./...)
+
+  lenting: 
+    name: Lenting 
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: check out code 
+      uses: actions/checkout@v4 
+
+      -name: set up Go
+      uses: actions/setup-go@v5 
+      with: 
+        go-version: '1.23.0' 
+
+      - name: install staticcheck 
+      run : go install honnef.co/go/tools/cmd/staticcheck@latest
+
+      -name: perform lenting check 
+      run: staticcheck ./... 
