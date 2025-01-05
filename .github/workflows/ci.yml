@@ -55,3 +55,22 @@ jobs:
 
     - name: perform lenting check 
       run: test -z $(staticcheck ./... )
+
+  Security: 
+    name: security 
+    runs-on: ubuntu-latest 
+
+    steps: 
+    - name: Check out code
+      uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '1.23.0'
+
+    - name: Instal dependencies
+      run: go install github.com/securego/gosec/v2/cmd/gosec@latest
+
+    - name: Perform Security check
+      run: gosec ./...
