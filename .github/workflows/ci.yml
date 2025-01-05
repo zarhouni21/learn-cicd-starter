@@ -1,8 +1,6 @@
 name: ci
 
 on:
-  push:
-    branches: [addtests]
   pull_request:
     branches: [main]
 
@@ -56,4 +54,4 @@ jobs:
       run : go install honnef.co/go/tools/cmd/staticcheck@latest
 
     - name: perform lenting check 
-      run: staticcheck ./... 
+      run: test -z $(staticcheck ./... )
