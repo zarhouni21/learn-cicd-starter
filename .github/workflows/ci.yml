@@ -1,23 +1,76 @@
-name: ci 
+name: ci
 
 on:
-  pull_requests:
-    branches: [main] 
-
+  pull_request:
+    branches: [main]
 
 jobs:
   tests:
-    name: Tests 
+    name: Tests
     runs-on: ubuntu-latest
 
     steps:
-      -name: checks out code 
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23.0'
+
+      - name: Run tests
+        run: go test -cover ./...
+
+  style: 
+    name: Style 
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23.0'
+
+      - name: Check formatting
+        run: test -z $(go fmt ./...)
+
+  lenting: 
+    name: Lenting 
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: check out code 
+      uses: actions/checkout@v4 
+
+    - name: set up Go
+      uses: actions/setup-go@v5 
+      with: 
+        go-version: '1.23.0' 
+
+    - name: install staticcheck 
+      run : go install honnef.co/go/tools/cmd/staticcheck@latest
+
+    - name: perform lenting check 
+      run: test -z $(staticcheck ./... )
+
+  Security: 
+    name: security 
+    runs-on: ubuntu-latest 
+
+    steps: 
+    - name: Check out code
       uses: actions/checkout@v4
 
-      -name: Set up Go 
+    - name: Set up Go
       uses: actions/setup-go@v5
       with:
-        go-version: "1.23.0"
-    
-      -name: Print Go version 
-      run: go version
+        go-version: '1.23.0'
+
+    - name: Instal dependencies
+      run: go install github.com/securego/gosec/v2/cmd/gosec@latest
+
+    - name: Perform Security check
+      run: gosec ./...
